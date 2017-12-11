@@ -15,7 +15,9 @@ const List = ({contacts, selected}) => {
   let rows = [];
 
   contacts.forEach((c) => {
-    rows.push(<ListRow contact={c} selected={selected}/>);
+    rows.push(
+      <ListRow key={c.id.toString()} contact={c} selected={selected}/>
+    );
   });
 
   return <ul>{rows}</ul>
@@ -31,15 +33,10 @@ class App extends Component {
 
     this.state = { contacts: [], selectedName: '', selectedId: 0 };
     this.uniqueId = 0;
-
-    this.append = this.append.bind(this);
-    this.add = this.add.bind(this);
-    this.update = this.update.bind(this);
-    this.del = this.del.bind(this);
-    this.selected = this.selected.bind(this);
   };
 
-  add(){
+
+  add = () => {
 
     let c = this.state.contacts;
 
@@ -54,7 +51,7 @@ class App extends Component {
     
   };
 
-  update() {
+  update = () => {
 
     let c = this.state.contacts;
 
@@ -69,7 +66,7 @@ class App extends Component {
 
   };
 
-  del(event){
+  del = () => {
 
     let c = this.state.contacts;
     
@@ -80,24 +77,22 @@ class App extends Component {
 
   };
 
-  selected(event) {
+  selected = (e) => {
 
     let c = this.state.contacts;
-    let selectedId = event.target.value;
-    let selectedName = c.filter(item => item.id === selectedId)[0].name;
-
+    let selectedId = e.target.value;
+    
     this.setState({
-      contacts: c,
-      selectedName: selectedName,
+      selectedName: c.filter(item => item.id === selectedId)[0].name,
       selectedId: selectedId
     }); 
 
   };
 
-  append(event) {
+  append = (e) => {
 
     this.setState({
-      selectedName: event.target.value
+      selectedName: e.target.value
     });
 
   };
