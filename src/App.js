@@ -7,7 +7,7 @@ import './App.css';
 */
 const ListRow = ({contact, selected}) => 
   <li value={contact.id} onClick={selected}>
-    Name: {contact.name}
+    Name: {contact.name} 
   </li>;
 
 const List = ({contacts, selected}) => {
@@ -23,6 +23,14 @@ const List = ({contacts, selected}) => {
   return <ul>{rows}</ul>
 }
 
+const getContacts = (self) => {
+  return self.state.contacts;
+} 
+
+const getValue = (e) => {
+  return e.target.value;
+}
+
 /*
 * Statefull application
 */
@@ -35,10 +43,9 @@ class App extends Component {
     this.uniqueId = 0;
   };
 
-
   add = () => {
 
-    let c = this.state.contacts;
+    let c = getContacts(this);
 
     c.push({ 
       id: this.uniqueId++,
@@ -53,7 +60,7 @@ class App extends Component {
 
   update = () => {
 
-    let c = this.state.contacts;
+    let c = getContacts(this);
 
     c[c.findIndex(item => item.id === this.state.selectedId)] = { 
       id: this.state.selectedId,
@@ -68,7 +75,7 @@ class App extends Component {
 
   del = () => {
 
-    let c = this.state.contacts;
+    let c = getContacts(this);
     
     this.setState({
       contacts: c.filter(item => item.id !== this.state.selectedId),
@@ -79,8 +86,8 @@ class App extends Component {
 
   selected = (e) => {
 
-    let c = this.state.contacts;
-    let selectedId = e.target.value;
+    let c = getContacts(this);
+    let selectedId = getValue(e);
     
     this.setState({
       selectedName: c.filter(item => item.id === selectedId)[0].name,
@@ -92,7 +99,7 @@ class App extends Component {
   append = (e) => {
 
     this.setState({
-      selectedName: e.target.value
+      selectedName: getValue(e)
     });
 
   };
